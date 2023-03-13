@@ -1,0 +1,372 @@
+MIN_FIELD_SIZE = 4
+MAX_FIELD_SIZE = 8
+
+
+def get_char():
+    char1 = input("Enter a character to represent player 1: ")
+    while len(char1) != 1:
+        char1 = input("Your character must be one character long. Enter a character to represent player 1 again: ")
+    char2 = input("Enter a character to represent player 2: ")
+    while len(char2) != 1:
+        char2 = input("Your character must be one character long. Enter a character to represent player 2 again: ")
+    return char1, char2
+
+
+# a function to take other information about the game other than the characters
+def get_information():
+    try:
+        playing_field = int(input("Enter the row/column number of the playing field(4-8, 4 and 8 included): "))
+        while not (playing_field >= MIN_FIELD_SIZE and playing_field <= MAX_FIELD_SIZE):  # to check whether the entered playing size info suitable to the game rules.
+            playing_field = int(input("You should enter field size between 4 and 8 (4 and 8 included): "))
+        table_list = [[' ' for c in range(playing_field)] for r in range(playing_field)]
+        char1_counter = playing_field  # playing field is also the number of stones each player will have
+        char2_counter = playing_field  # playing field is also the number of stones each player will have
+        return playing_field, table_list, char1_counter, char2_counter
+    except:  # in order to prevent an error occuring when a player enters a character inconvertible to an integer
+        print("You can only enter numbers 4, 5 6, 7 or 8.")
+        main()
+
+
+def create_list(playing_field, table_list):
+    if playing_field == 4:
+        table = f'     A   B   C   D\
+                \n  ------------------- \
+                \n1  | {table_list[0][0]} | {table_list[0][1]} | {table_list[0][2]} | {table_list[0][3]} |  1\
+                \n  ------------------- \
+                \n2  | {table_list[1][0]} | {table_list[1][1]} | {table_list[1][2]} | {table_list[1][3]} |  2\
+                \n  ------------------- \
+                \n3  | {table_list[2][0]} | {table_list[2][1]} | {table_list[2][2]} | {table_list[2][3]} |  3\
+                \n  ------------------- \
+                \n4  | {table_list[3][0]} | {table_list[3][1]} | {table_list[3][2]} | {table_list[3][3]} |  4\
+                \n  ------------------- \
+                \n     A   B   C   D'
+    elif playing_field == 5:
+        table = f'     A   B   C   D   E \
+                \n  ----------------------- \
+                \n1  | {table_list[0][0]} | {table_list[0][1]} | {table_list[0][2]} ' \
+                f'| {table_list[0][3]} | {table_list[0][4]} |  1\
+                \n  ----------------------- \
+                \n2  | {table_list[1][0]} | {table_list[1][1]} | {table_list[1][2]} ' \
+                f'| {table_list[1][3]} | {table_list[1][4]} |  2\
+                \n  ----------------------- \
+                \n3  | {table_list[2][0]} | {table_list[2][1]} | {table_list[2][2]} ' \
+                f'| {table_list[2][3]} | {table_list[2][4]} |  3\
+                \n  ----------------------- \
+                \n4  | {table_list[3][0]} | {table_list[3][1]} | {table_list[3][2]} ' \
+                f'| {table_list[3][3]} | {table_list[3][4]} |  4\
+                \n  ----------------------- \
+                \n5  | {table_list[4][0]} | {table_list[4][1]} | {table_list[4][2]} ' \
+                f'| {table_list[4][3]} | {table_list[4][4]} |  5\
+                \n  ----------------------- \
+                \n     A   B   C   D   E'
+    elif playing_field == 6:
+        table = f'     A   B   C   D   E   F \
+                    \n  --------------------------- \
+                    \n1  | {table_list[0][0]} | {table_list[0][1]} | {table_list[0][2]} ' \
+                f'| {table_list[0][3]} | {table_list[0][4]} | {table_list[0][5]} |  1\
+                    \n  --------------------------- \
+                    \n2  | {table_list[1][0]} | {table_list[1][1]} | {table_list[1][2]} ' \
+                f'| {table_list[1][3]} | {table_list[1][4]} | {table_list[1][5]} |  2\
+                    \n  --------------------------- \
+                    \n3  | {table_list[2][0]} | {table_list[2][1]} | {table_list[2][2]} ' \
+                f'| {table_list[2][3]} | {table_list[2][4]} | {table_list[2][5]} |  3\
+                    \n  --------------------------- \
+                    \n4  | {table_list[3][0]} | {table_list[3][1]} | {table_list[3][2]} ' \
+                f'| {table_list[3][3]} | {table_list[3][4]} | {table_list[3][5]} |  4\
+                    \n  --------------------------- \
+                    \n5  | {table_list[4][0]} | {table_list[4][1]} | {table_list[4][2]} ' \
+                f'| {table_list[4][3]} | {table_list[4][4]} | {table_list[4][5]} |  5\
+                    \n  --------------------------- \
+                    \n6  | {table_list[5][0]} | {table_list[5][1]} | {table_list[5][2]} ' \
+                f'| {table_list[5][3]} | {table_list[5][4]} | {table_list[5][5]} |  6\
+                    \n  --------------------------- \
+                    \n     A   B   C   D   E   F'
+    elif playing_field == 7:
+        table = f'      A   B   C   D   E   F   G\
+                    \n  ------------------------------- \
+                    \n1  | {table_list[0][0]} | {table_list[0][1]} | {table_list[0][2]} | {table_list[0][3]} ' \
+                f'| {table_list[0][4]} | {table_list[0][5]} | {table_list[0][6]} |  1\
+                    \n  ------------------------------- \
+                    \n2  | {table_list[1][0]} | {table_list[1][1]} | {table_list[1][2]} | {table_list[1][3]} ' \
+                f'| {table_list[1][4]} | {table_list[1][5]} | {table_list[1][6]} |  2\
+                    \n  ------------------------------- \
+                    \n3  | {table_list[2][0]} | {table_list[2][1]} | {table_list[2][2]} | {table_list[2][3]} ' \
+                f'| {table_list[2][4]} | {table_list[2][5]} | {table_list[2][6]} |  3\
+                    \n  ------------------------------- \
+                    \n4  | {table_list[3][0]} | {table_list[3][1]} | {table_list[3][2]} | {table_list[3][3]} ' \
+                f'| {table_list[3][4]} | {table_list[3][5]} | {table_list[3][6]} |  4\
+                    \n  ------------------------------- \
+                    \n5  | {table_list[4][0]} | {table_list[4][1]} | {table_list[4][2]} | {table_list[4][3]} ' \
+                f'| {table_list[4][4]} | {table_list[4][5]} |  {table_list[4][6]}|  5\
+                    \n  ------------------------------- \
+                    \n6  | {table_list[5][0]} | {table_list[5][1]} | {table_list[5][2]} | {table_list[5][3]} ' \
+                f'| {table_list[5][4]} | {table_list[5][5]} | {table_list[5][6]} |  6\
+                    \n  ------------------------------- \
+                    \n7  | {table_list[6][0]} | {table_list[6][1]} | {table_list[6][2]} | {table_list[6][3]} ' \
+                f'| {table_list[6][4]} | {table_list[6][5]} | {table_list[6][6]} |  7\
+                    \n  ------------------------------- \
+                    \n     A   B   C   D   E   F   G'
+    else:
+        table = f'     A   B   C   D   E   F   G   H \
+                \n  -----------------------------------" \
+                \n1  | {table_list[0][0]} | {table_list[0][1]} | {table_list[0][2]} | {table_list[0][3]} ' \
+                f'| {table_list[0][4]} | {table_list[0][5]} | {table_list[0][6]} | {table_list[0][7]} |  1\
+                \n  ----------------------------------- \
+                \n2  | {table_list[1][0]} | {table_list[1][1]} | {table_list[1][2]} | {table_list[1][3]} ' \
+                f'| {table_list[1][4]} | {table_list[1][5]} | {table_list[1][6]} | {table_list[1][7]} |  2\
+                \n  ----------------------------------- \
+                \n3  | {table_list[2][0]} | {table_list[2][1]} | {table_list[2][2]} | {table_list[2][3]} ' \
+                f'| {table_list[2][4]} | {table_list[2][5]} | {table_list[2][6]} | {table_list[2][7]} |  3\
+                \n  ----------------------------------- \
+                \n4  | {table_list[3][0]} | {table_list[3][1]} | {table_list[3][2]} | {table_list[3][3]} ' \
+                f'| {table_list[3][4]} | {table_list[3][5]} | {table_list[3][6]} | {table_list[3][7]} |  4\
+                \n  ----------------------------------- \
+                \n5  | {table_list[4][0]} | {table_list[4][1]} | {table_list[4][2]} | {table_list[4][3]} ' \
+                f'| {table_list[4][4]} | {table_list[4][5]} | {table_list[4][6]} | {table_list[4][7]} |  5\
+                \n  ----------------------------------- \
+                \n6  | {table_list[5][0]} | {table_list[5][1]} | {table_list[5][2]} | {table_list[5][3]} ' \
+                f'| {table_list[5][4]} | {table_list[5][5]} | {table_list[5][6]} | {table_list[5][7]} |  6\
+                \n  ----------------------------------- \
+                \n7  | {table_list[6][0]} | {table_list[6][1]} | {table_list[6][2]} | {table_list[6][3]} ' \
+                f'| {table_list[6][4]} | {table_list[6][5]} | {table_list[6][6]} | {table_list[6][7]} |  7\
+                \n  ----------------------------------- \
+                \n8  | {table_list[7][0]} | {table_list[7][1]} | {table_list[7][2]} | {table_list[7][3]} ' \
+                f'| {table_list[7][4]} | {table_list[7][5]} | {table_list[7][6]} | {table_list[7][7]} |  8 \
+                \n  -----------------------------------\
+                \n     A   B   C   D   E   F   G   H'
+    return table
+
+
+# a function to create the first image of the playing field.
+def game_opening(playing_field, table_list, char1, char2):
+    if playing_field == 4:
+        table_list[0][0], table_list[0][1], table_list[0][2], table_list[0][3] = char1, char1, char1, char1
+        table_list[3][0], table_list[3][1], table_list[3][2], table_list[3][3] = char2, char2, char2, char2
+    elif playing_field == 5:
+        table_list[0][0], table_list[0][1], table_list[0][2], table_list[0][3], table_list[0][
+            4] = char1, char1, char1, char1, char1
+        table_list[4][0], table_list[4][1], table_list[4][2], table_list[4][3], table_list[4][
+            4] = char2, char2, char2, char2, char2
+    elif playing_field == 6:
+        table_list[0][0], table_list[0][1], table_list[0][2], table_list[0][3], table_list[0][4], table_list[0][
+            5] = char1, char1, char1, char1, char1, char1
+        table_list[5][0], table_list[5][1], table_list[5][2], table_list[5][3], table_list[5][4], table_list[5][
+            5] = char2, char2, char2, char2, char2, char2
+    elif playing_field == 7:
+        table_list[0][0], table_list[0][1], table_list[0][2], table_list[0][3], table_list[0][4], table_list[0][
+            5], table_list[0][6] = char1, char1, char1, char1, char1, char1, char1
+        table_list[6][0], table_list[6][1], table_list[6][2], table_list[6][3], table_list[6][4], table_list[6][
+            5], table_list[6][6] = char2, char2, char2, char2, char2, char2, char2
+    else:
+        table_list[0][0], table_list[0][1], table_list[0][2], table_list[0][3], table_list[0][4], table_list[0][
+            5], table_list[0][6], table_list[0][7] = char1, char1, char1, char1, char1, char1, char1, char1
+        table_list[7][0], table_list[7][1], table_list[7][2], table_list[7][3], table_list[7][4], table_list[7][
+            5], table_list[7][6], table_list[7][7] = char2, char2, char2, char2, char2, char2, char2, char2
+    return table_list
+
+
+# a function to split given position data and turn them into usable index elements.
+def find_indexes(char):
+    position = input(f"Player {char}, please enter the position of your own stone you want "
+                     f"to move and the target position (for example 3C 1C):")
+    positions = position.split()
+    prev_position = positions[0]
+    new_position = positions[1]
+    row_names_index = {"A": 0, "B": 1, "C": 2, "D": 3, "E": 4, "F": 5, "G": 6, "H": 7}
+    row_names_list = ["A","B","C","D","E","F","G","H"]
+    while position[2] != " " or len(position) != 5 or position[1] not in row_names_index or position[
+        4] not in row_names_index:
+        print("Please enter your position answer compatible with the example given.")
+        new_position_column, new_position_row, prev_position_row, prev_position_column, new_position, prev_position, position, row_names_index, row_names_list = find_indexes(
+            char)
+    try:
+        prev_position_row = int(prev_position[0]) - 1
+    except:  # in order to prevent an error occuring when a player enters a character inconvertible to an integer
+        print("Please enter your position answer compatible with the example given.")
+        new_position_column, new_position_row, prev_position_row, prev_position_column, new_position, prev_position, position, row_names_index, row_names_list = find_indexes(char)
+    prev_position_column = row_names_index[prev_position[1]]
+    try:
+        new_position_row = int(new_position[0]) - 1
+    except:  # in order to prevent an error occuring when a player enters a character inconvertible to an integer
+        print("Please enter your position answer compatible with the example given.")
+        new_position_column, new_position_row, prev_position_row, prev_position_column, new_position, prev_position, position, row_names_index, row_names_list = find_indexes(char)
+    new_position_column = row_names_index[new_position[1]]
+    return new_position_column, new_position_row, prev_position_row, prev_position_column, new_position, prev_position, position, row_names_index, row_names_list
+
+
+# a function to check the horizontal sides of the new position and to lock opposing char if needed
+def check_horizontally(playing_field, char, not_char, char1, char1_counter,char2_counter, table_list, new_position_row, new_position_column, row_names_list):
+    if 0 <= new_position_column + 1 <= playing_field - 1 and 0 <= new_position_column + 2 <= playing_field - 1:  # to prevent indexError while checking the sides
+        # to check right side of the stone for a locked.
+        if (table_list[new_position_row][new_position_column] == char and table_list[new_position_row][new_position_column + 1] == not_char  and table_list[new_position_row][new_position_column + 2] == char):
+            table_list[new_position_row][new_position_column + 1] = " "
+            print(f"The stone at position {new_position_row + 1}{row_names_list[new_position_column + 1]} was locked and removed.")
+            if not_char == char1:
+                char1_counter -= 1
+            else:
+                char2_counter -= 1
+    if 0 <= new_position_column - 1 <= playing_field - 1 and 0 <= new_position_column - 2 <= playing_field - 1:  # to prevent indexError while checking the sides
+        # to check left side of the stone for a locked.
+        if (table_list[new_position_row][new_position_column] == char and table_list[new_position_row][new_position_column - 1] == not_char and table_list[new_position_row][new_position_column - 2] == char):
+            table_list[new_position_row][new_position_column - 1] = " "
+            print(f"The stone at position {new_position_row + 1}{row_names_list[new_position_column - 1]} was locked and removed.")
+            if not_char == char1:
+                char1_counter -= 1
+            else:
+                char2_counter -= 1
+    return char1_counter, char2_counter, table_list
+
+
+# a function to check the vertical sides of the new position and to lock opposing char if needed
+def check_vertically(playing_field, char, not_char, char1, char1_counter,char2_counter, table_list, new_position_row, new_position_column, row_names_list):
+    if 0 <= new_position_row + 1 <= playing_field - 1 and 0 <= new_position_row + 2 <= playing_field - 1:  # to prevent indexError while checking the sides
+        # to check downside of the stone for a locked.
+        if (table_list[new_position_row][new_position_column] == char and table_list[new_position_row + 1][new_position_column] == not_char and table_list[new_position_row + 2][new_position_column] == char):
+            table_list[new_position_row + 1][new_position_column] = " "
+            print(f"The stone at position {new_position_row + 2}{row_names_list[new_position_column]} was locked and removed.")
+            if not_char == char1:
+                char1_counter -= 1
+            else:
+                char2_counter -= 1
+    if 0 <= new_position_row - 1 <= playing_field - 1 and 0 <= new_position_row - 2 <= playing_field - 1:  # to prevent indexError while checking the sides
+        # to check upside of the stone for a locked.
+        if (table_list[new_position_row][new_position_column] == char and table_list[new_position_row - 1][new_position_column] == not_char and table_list[new_position_row - 2][new_position_column] == char):
+            table_list[new_position_row - 1][new_position_column] = " "
+            print(f"The stone at position {new_position_row}{row_names_list[new_position_column]} was locked and removed.")
+            if not_char == char1:
+                char1_counter -= 1
+            else:
+                char2_counter -= 1
+    return char1_counter, char2_counter, table_list
+
+
+# a function to check the crosses to determine whether the situation is suitable to lock or not.
+def check_crosses(char, not_char, char1, char1_counter,char2_counter, table_list, new_position_row, new_position_column, cross_check_dict, row_names_list):
+    if f"{new_position_row},{new_position_column}" in cross_check_dict:  # to prevent a KeyError
+        cross_list = cross_check_dict[f"{new_position_row},{new_position_column}"]
+        # to check the cross next to the position and the other side of it for a locked:
+        if table_list[int(cross_list[0][0])][int(cross_list[0][2])] == not_char and table_list[int(cross_list[1][0])][int(cross_list[1][2])] == char:
+            table_list[int(cross_list[0][0])][int(cross_list[0][2])] = " "
+            print(f"The stone at position {int(cross_list[0][0]) + 1}{row_names_list[int(cross_list[0][2])]} was locked and removed.")
+            if not_char == char1:
+                char1_counter -= 1
+            else:
+                char2_counter -= 1
+    return char1_counter, char2_counter, table_list
+
+
+def play_game(char1, char2, table_list, char1_counter, char2_counter, playing_field):
+    playing_round = 1
+    while char1_counter > 1 and char2_counter > 1:  # to finish the game when one of the players have only one stone.
+        if playing_round % 2 != 0:  # to determine which player is playing
+            char = char1
+            not_char = char2
+        else:
+            char = char2
+            not_char = char1
+        playing_round += 1
+        new_position_column, new_position_row, prev_position_row, prev_position_column, new_position, prev_position, position, row_names_index, row_names_list = find_indexes(
+            char)
+        # while loop is used to prevent player entering positions accordingly to the given example.
+        while position[2] != " " or len(position) != 5 or position[1] not in row_names_index or position[4] not in row_names_index:
+            print("Please enter your position answer compatible with the example given.")
+            new_position_column, new_position_row, prev_position_row, prev_position_column, new_position, prev_position, position, row_names_index, row_names_list = find_indexes(
+                char)
+        # while loop is used to prevent player entering positions outside the table.
+        while prev_position_row not in range(0, playing_field) or new_position_row not in range(0, playing_field) or \
+            prev_position_column not in range(0, playing_field) or new_position_column not in range(0, playing_field):
+            print("You can only choose positions from the table coordinates")
+            new_position_column, new_position_row, prev_position_row, prev_position_column, new_position, prev_position, position, row_names_index, row_names_list = find_indexes(
+                char)
+        # while loop is used to prevent player from trying to move both horizontally and vertically at the same time.
+        while new_position_row != prev_position_row and new_position_column != prev_position_column:
+            print("Moving only vertically or horizontally is allowed in this game.")
+            new_position_column, new_position_row, prev_position_row, prev_position_column, new_position, prev_position, position, row_names_index, row_names_list = find_indexes(
+                char)
+        # while loop is used to prevent player from trying to move to its own place again.
+        while new_position_row == prev_position_row and new_position_column == prev_position_column:
+            print("New target has to be different than previous target.")
+            new_position_column, new_position_row, prev_position_row, prev_position_column, new_position, prev_position, position, row_names_index, row_names_list = find_indexes(
+                char)
+        # while loop is used to prevent player trying to enter a position that doesn't have its own stone.
+        while table_list[prev_position_row][prev_position_column] != char:
+            print("You can only move your character.")
+            new_position_column, new_position_row, prev_position_row, prev_position_column, new_position, prev_position, position, row_names_index, row_names_list = find_indexes(
+                char)
+        # while loop is used to prevent player trying to move its stone over another.
+        a = True
+        while a == True:
+            not_empty = False
+            if prev_position_row < new_position_row:  # if-elif structure is used to determine the smaller index to use first in range() function.
+                for i in range(prev_position_row + 1, new_position_row + 1):  # for loop used to check positions on the way of moving.
+                    if table_list[i][new_position_column] != " ":
+                        not_empty = True
+            elif prev_position_row > new_position_row:  # if-elif structure is used to determine the smaller index to use first in range() function.
+                for i in range(new_position_row, prev_position_row):  # for loop used to check positions on the way of moving.
+                    if table_list[i][new_position_column] != " ":
+                        not_empty = True
+            if prev_position_column < new_position_column:  # if-elif structure is used to determine the smaller index to use first in range() function.
+                for i in range(prev_position_column + 1, new_position_column + 1):  # for loop used to check positions on the way of moving.
+                    if table_list[new_position_row][i] != " ":
+                        not_empty = True
+            elif prev_position_column > new_position_column:  # if-elif structure is used to determine the smaller index to use first in range() function.
+                for i in range(new_position_column, prev_position_column):  # for loop used to check positions on the way of moving.
+                    if table_list[new_position_row][i] != " ":
+                        not_empty = True
+            if not_empty:
+                print("You can't jump over the other stones or go to a place with a stone in it.")
+                new_position_column, new_position_row, prev_position_row, prev_position_column, new_position, prev_position, position, row_names_index, row_names_list = find_indexes(
+                    char)
+            else:
+                a = False
+
+        table_list[prev_position_row][prev_position_column] = " "
+        table_list[new_position_row][new_position_column] = char
+
+        # This dictionary is created to have positions next to crosses as keys (there are 8 of them), and the other
+        # two positions (one is the cross itself and the other is the other next-to-called-cross position) in a list as values.
+        # The values are lists whose zeroth index is always the cross, and first index is the position next to cross other than the position in key.
+        cross_check_dict = {f'0,1': ["0,0", "1,0"],
+                '1,0': ["0,0", "0,1"],
+                f'{playing_field - 2},0': [f"{playing_field - 1},0", f"{playing_field - 1},1"],
+                f'{playing_field - 1},1': [f"{playing_field - 1},0", f"{playing_field - 2},0"],
+                f'{playing_field - 1},{playing_field - 2}': [f"{playing_field - 1},{playing_field - 1}", f"{playing_field - 2},{playing_field - 1}"],
+                f'{playing_field - 2},{playing_field - 1}': [f"{playing_field - 1},{playing_field - 1}", f"{playing_field - 1},{playing_field - 2}"],
+                f'0,{playing_field - 2}': [f"0,{playing_field - 1}", f"1,{playing_field - 1}"],
+                f'1,{playing_field - 1}': [f"0,{playing_field - 1}", f"0,{playing_field - 2}"]}
+
+        char1_counter, char2_counter, table_list = check_crosses(char, not_char, char1, char1_counter, char2_counter, table_list, new_position_row,
+                      new_position_column, cross_check_dict, row_names_list)  # calling the function to check crosses
+        char1_counter, char2_counter, table_list = check_horizontally(playing_field,  # calling the function to check horizontal sides
+                                                                      char, not_char, char1, char1_counter, char2_counter, table_list, new_position_row, new_position_column, row_names_list)
+        char1_counter, char2_counter, table_list = check_vertically(playing_field, char, not_char, char1, char1_counter, char2_counter, table_list, new_position_row, new_position_column, row_names_list)  # calling the function to check vertical sides
+
+        table = create_list(playing_field, table_list)
+        print(table)
+
+    if char1_counter == 1:
+        print("*** GAME OVER! ***")
+        print(f"Player {char2} won the game. Congratulations!")
+    else:
+        print("*** GAME OVER! ***")
+        print(f"Player {char1} won the game. Congratulations!")
+
+
+def main():
+    cont = "Y"
+    print("*** Welcome To Our Game ***")
+    char1, char2 = get_char()
+    while cont == "Y":
+        playing_field, table_list, char1_counter, char2_counter = get_information()
+        table = create_list(playing_field, table_list)
+        table_list = game_opening(playing_field, table_list, char1, char2)
+        table = create_list(playing_field, table_list)
+        print(table)
+        play_game(char1, char2, table_list, char1_counter, char2_counter, playing_field)
+        cont = input("Do you want to play another game? (Y/N) ")
+        while cont not in ["y", "Y", "n", "N"]:
+            cont = input("Please only answer with letters 'y', 'Y', 'n' or 'N': ")
+        cont = cont.upper()
+
+
+main()
