@@ -1,0 +1,85 @@
+
+def draw_table(table_list):
+    table = f' A  B  C \
+     \n--------- \
+    \n1 |{table_list[0][0]}{table_list[0][1]}{table_list[0][2]}| \
+     \n--------- \
+    \n2 |{table_list[1][0]}{table_list[1][1]}{table_list[1][2]}| \
+     \n--------- \
+    \n3 |{table_list[2][0]}{table_list[2][1]}{table_list[2][2]}| \
+     \n---------'
+    return table
+
+
+def find_positions(playing_round, table_list):
+    if playing_round % 2 != 0:
+        char = 'X'
+    else:
+        char = 'O'
+    position = input(f"Player {char}, please enter the position you want to place your character (ex. 2B): ")
+    column_names_index = {"A": 0, "B": 1, "C": 2}
+    position_row = int(position[0]) - 1
+    position_column = column_names_index[position[1]]
+    table_list[position_row][position_column] = char
+    return table_list, char
+
+
+def check_h(char, table_list, i, j, row):
+    if (table_list[i][j-1] == char and table_list[i][j+1] == char and table_list[i][j] == char):
+        row = False
+    return row
+
+
+def check_v(char, table_list, i, j, row):
+    if (table_list[i-1][j] == char and table_list[i+1][j] == char and table_list[i][j] == char):
+        row = False
+    return row
+
+
+def check_d(char, table_list, i, j, row):
+    if (table_list[i-1][j+1] == char and table_list[i+1][j-1] == char and table_list[i][j] == char):
+        row = False
+    if (table_list[i-1][j-1] == char and table_list[i+1][j+1] == char and table_list[i][j] == char):
+        row = False
+    return row
+
+
+def play_game(table_list, table):
+    playing_round = 1
+    row = True
+    while row != False:
+        table_list, char = find_positions(playing_round, table_list)
+        empty_count = 0
+        print(f"Previous Board:\
+                \n{table}")
+        for i in range(3):
+            for j in range(3):
+                if i == 1 and j in [0,1,2]:
+                    row = check_v(char, table_list, i, j, row)
+                if j == 1 and i in [0,1,2]:
+                    row = check_h(char, table_list, i, j, row)
+                if i == 1 and j == 1:
+                    row = check_d(char, table_list, i, j, row)
+                if table_list[i][j] != 'X' and table_list[i][j] != 'O':
+                    empty_count += 1
+        table = draw_table(table_list)
+        print(f"New Board: \
+                \n{table}")
+        if empty_count == 0:
+            row = False
+            print("GAME OVER \
+                  \nNeither of the players won the game.")
+        elif row == False:
+            print(f"GAME OVER \
+                  \nPlayer {char} won the game!")
+        playing_round += 1
+
+
+def main():
+    table_list = [[' ' for c in range(3)] for r in range(3)]
+    table = draw_table(table_list)
+    print(table)
+    play_game(table_list, table)
+
+
+main()
